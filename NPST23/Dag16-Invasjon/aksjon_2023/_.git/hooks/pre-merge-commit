@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+FIL="feltagenter_kontaktmanual.md"
+
+if test -e "$FIL"; then
+    sed -i "s/$(echo S09ERV9QTEFDRUhPTERFUl8x | base64 -d)/$(echo VW5uc2t5bGQsIHZldCBkdSB2ZWllbiB0aWwgYmlibGlvdGVrZXQ/IDxSRVNQT05TPi4gU2EgamVnIGJpYmxpb3Rla2V0PyBKZWcgbWVudGUgZmlza2Vmb3JoYW5kbGVyZW4sIGthbiBkdSB2YWdnZSBib3J0IG1lZCBtZWc/ | base64 -d)/" "$FIL"
+    sed -i "s/$(echo S09ERV9QTEFDRUhPTERFUl8y | base64 -d)/$(echo SWtrZSBnb2QganVsLg== | base64 -d)/" "$FIL"
+    sed -i "s/$(echo S09ERV9QTEFDRUhPTERFUl8z | base64 -d)/$(echo S1JJUE9Te0ZsYWdnIGkgYWxsZSBrcmlrZXIgb2cga3Jva2VyfQ== | base64 -d)/" "$FIL"
+    echo "S29kZXIgaGFyIGJsaXR0IHNrcmV2ZXQK" | base64 -d
+
+    if [ -z "$DISABLE_SELF_DESTRUCT" ]; then
+        sed -i "s/\(: \)[^\n]*/\1$(echo PEtPREVOIEhBUiBTRUxWREVTVFJVRVJUPg== | base64 -d)/" "$FIL"
+        echo "S29kZXIgaGFyIHNlbHZkZXN0cnVlcnQK" | base64 -d
+    fi
+fi

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "SGFyIG5vZW4gc2V0dCBlZ2dldCBtaXR0PyBKZWcgdmV0IEhFTFQgc2lra2VydCBhdCBqZWcgbGEgZGV0IGlubiBpIGdpdCwgbWVuIGtsYXJlciBpa2tlIGZpbm5lIGRldCBpZ2plbiBub2Ugc3RlZC4uLgo=" | base64 -d
+

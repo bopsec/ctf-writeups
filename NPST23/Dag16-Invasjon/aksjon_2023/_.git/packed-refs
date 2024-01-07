@@ -1,0 +1,10 @@
+# pack-refs with: peeled fully-peeled sorted 
+9e1d8a380df530e1bb211e96bdf42c1af329034d refs/heads/master
+d92d1a1ee3aef7b0e514e8ca9343386848e17a4c refs/remotes/origin/Rettelser
+6d8615c8a13f11bd977de1bd5993d20695411f35 refs/remotes/origin/Risikoanalyse
+a469adf47dd5f285b3232834e682eef60f7b44bd refs/remotes/origin/Tidsplan
+1705240e096b5712f94306e96005ba5d561b9686 refs/remotes/origin/fase2
+2ebb9b568a440f6b6c9cf82472a036686665b6ed refs/remotes/origin/ikke-merge-før-julaften
+9e1d8a380df530e1bb211e96bdf42c1af329034d refs/remotes/origin/master
+733f4f232873da7fc55134b9210561c2f210f4cd refs/remotes/origin/teknisk
+e846a617f8b264809acec431af6690a2ce43cd03 refs/remotes/origin/teknisk-fase-1

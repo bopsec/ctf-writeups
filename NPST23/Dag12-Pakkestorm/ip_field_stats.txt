@@ -1,0 +1,9 @@
+Differentiated Services Field Stats:
+DS Field: 0, Count: 347713
+
+Reserved Bit Stats:
+Reserved Bit Set: False, Count: 347679
+Reserved Bit Set: True, Count: 34
+
+More Fragments Flag Stats:
+More Fragments Flag Set: True, Count: 347713
