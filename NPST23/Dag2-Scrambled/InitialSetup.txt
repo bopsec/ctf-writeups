@@ -1,0 +1,39 @@
+Blue: "{_DTØEULS"
+Green: "_SMPLSPUE"
+Yellow: ":UB?)KE_}"
+Orange: "_LRLLEEIL"
+Red: "OSTPWBGYR"
+White: "DESN_EO_N"
+
+Top:
+Blue({) Blue (E) White(O)
+Orange(L) Green(S) Yellow())
+White(E) Green(L) Red(W)
+
+Front:
+Red(T) Yellow(?) Green(P)
+White(D) White(N) Orange(E)
+Orange(R) White(S) Red(P)
+
+Bottom
+Green(P) Orange(L) Blue(Ø)
+Blue(D) Blue(T) White(E)
+Orange(L) Yellow(B) White(_)
+
+Left:
+Yellow(:) Green(S) Green(M)
+Green(_) Red(O) Red(S)
+Blue(_) Orange(_) Yellow(U)
+
+Right:
+Yellow(}) Red(B) Orange(L)
+Yellow(K) Orange(E) Red(G)
+White(_) Green(U) Orange(I)
+
+Back:
+Green(E) White(N) Red(R)
+Blue(L) Yellow(E) Red(Y)
+Blue(U) Blue(S) Yellow(_)
+
+Solution:
+U B U' B L' B R L' B2 U F B2 U' B2 R2 F2 B2 D2 B2 D
