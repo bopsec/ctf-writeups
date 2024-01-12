@@ -146,7 +146,7 @@ Vi trenger at du rekonstruerer sleden så fort som mulig!
 📎 pinneved.txt
 ```
 
-Leste bare gjennom koden for å prøve å skjønne hva den gjorde. Tok noen iterasjoner av pinneved_reversed.py før jeg fikk ASCII-art [slede-reversed.txt](Dag4-Pinneved/slede_reversed.txt).
+Leste bare gjennom koden for å prøve å skjønne hva den gjorde. Tok noen iterasjoner av [pinneved_reversed.py](Dag4-Pinneved/pinneved_reversed.py) før jeg fikk ASCII-art [slede-reversed.txt](Dag4-Pinneved/slede_reversed.txt).
 
 Flagg:\
 `PST{ASCII_art_er_kult}`
