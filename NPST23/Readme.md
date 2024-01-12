@@ -710,7 +710,7 @@ Flagg:\
 
 [1817, 1004, 2238, 1709, 18, 714, 2499, 3069, 2148, 854, 1480, 831, 2441, 373, 276, 374, 844, 2725, 736, 2204, 1107, 1478]\
 Fant en annen array med indekser pluss en annen [nissetekst-lignende fil](Dag19-Hide-and-seek/nissetekst_2), men fant ingenting fra disse to..\
-Kan hende det finnes et egg? Enn så lenge fikk jeg "eaf t ndpnc hhneteti p"...
+Viste seg å bare være en annen måte å få samme flagg, en gammel versjon av oppgaven?
 
 ## Dag 20 - Rudolfs Eventyr
 
