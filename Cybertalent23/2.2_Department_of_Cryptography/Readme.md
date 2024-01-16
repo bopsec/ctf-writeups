@@ -12,7 +12,7 @@ all of us in the office for classical ciphers congratulate you with passing the 
 De fonetiske bokstavene stavet VDPTINEIIIFVIRVVZJNVVCLJVJJWKLIIIKRY.\
 Jeg så referansen til å hoppe over "a fence", så jeg gikk rett til rail-fence cipher, og brukte [dcode sin "autosolver"](https://www.dcode.fr/rail-fence-cipher) for å teste diverse.\
 På *key=4* og *offset=0* fant jeg en plaintext som startet med VENIVIDIVICI. Hele plaintexten var VENIVIDIVICIPFLIJVTIVKJRIVJRWVNZKYLJ.\
-Resterende (PFLIJVTIVKJRIVJRWVNZKYLJ) var fremdeles kryptert, så tenkte kjapt en rot-N-cipher for å holde oss til latin.\
+Resterende (PFLIJVTIVKJRIVJRWVNZKYLJ) var fremdeles kryptert, så tenkte kjapt en rot-N-cipher for å holde oss til Caesar.\
 På ROT17 fant jeg YOURSECRETSARESAFEWITHUS.
 ```
 login@corax:~/2_oppdrag$ scoreboard FLAG{YOURSECRETSARESAFEWITHUS}
