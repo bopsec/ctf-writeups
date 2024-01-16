@@ -1,7 +1,7 @@
 # 2.2
 
 ## 2.2.1
-Denne løste jeg ikke selv, men hadde løsningen tilgjengelig før CTFen var ferdig.\
+Denne løste jeg ikke helt selv, trengte et ganske stort push.\
 Fikk et cipher med fire ruter, hver rute med 7x14 bokstaver, ingen annen kontekst.\
 Etter litt analyse fant jeg ut at det manglet Q, noe som er vanlig i visse ciphers for at alfabetet skal passe som 25 forskjellige characters. Satt meg litt inn i Four Square ciphers da det passet godt, men ga meg før jeg fant noe interessant.\
 Fikk et nytt hint om Four Square, og at det kunne løses med riktig crib. Jeg hadde naturligvis testet FLAG/FLAGG tidligere, men nå testet jeg "officeforclassicalciphers".\
