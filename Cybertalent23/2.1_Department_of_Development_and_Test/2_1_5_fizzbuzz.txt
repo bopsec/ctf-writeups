@@ -1,0 +1,200 @@
+% MIN  ; Minimal configuration (MPU and Printer)
+
+
+; Initialize counters
+counter: 1
+reverse_counter: 10000
+TMP: 0
+reverse_counter <- #10000
+counter <- #1
+div3_counter: 3
+div3_counter <- #3
+div5_counter: 5
+div5_counter <- #5
+ones_rev: 9
+tens_rev: 10
+hundreds_rev: 10
+thousands_rev: 10
+ones: 0
+tens: 0
+hundreds: 0
+thousands: 0
+overten: 0
+overhundreds: 0
+overthousands: 0
+printable_thousands: 48
+printable_thousands <- #48
+printable_hundreds: 48
+printable_hundreds <- #48
+printable_tens: 48
+printable_tens <- #48
+printable_ones: 49
+printable_ones <- #49
+
+main_loop:
+    ; Increment the divisibility counters
+    div3_counter <- DEC <- div3_counter
+    div5_counter <- DEC <- div5_counter
+
+    ; Check divisibility and print
+    !div3_counter ? NIP <- #divisible_by_3
+    !div5_counter ? NIP <- #divisible_by_5
+    !div5_counter ? NIP <- #divisible_by_5
+
+    ; Print the number if not divisible by 3 or 5
+    NIP <- #handle_printing
+
+divisible_by_3:
+    ; DBG <- div3_counter
+    div3_counter <- #3
+    !div5_counter ? NIP <- #divisible_by_3_and_5
+    ; Print "Fizz"
+    PRN <- #'F'
+    PRN <- #'i'
+    PRN <- #'z'
+    PRN <- #'z'
+    PRN <- #10
+    NIP <- #increment_counter
+
+divisible_by_5:
+    div5_counter <- #5
+    ; DBG <- div5_counter
+    ; Print "Buzz"
+    PRN <- #'B'
+    PRN <- #'u'
+    PRN <- #'z'
+    PRN <- #'z'
+    PRN <- #10
+    NIP <- #increment_counter
+
+divisible_by_3_and_5:
+    div5_counter <- #5
+    ; Print "FizzBuzz"
+    PRN <- #'F'
+    PRN <- #'i'
+    PRN <- #'z'
+    PRN <- #'z'
+    PRN <- #'B'
+    PRN <- #'u'
+    PRN <- #'z'
+    PRN <- #'z'
+    PRN <- #10
+    NIP <- #increment_counter
+
+increment_counter:
+    ; DBG <- reverse_counter
+    ones <- INC <- ones
+    ones_rev <- DEC <- ones_rev
+    printable_ones <- INC <- printable_ones
+    !ones_rev ? NIP <- #handle_tens_no_print
+    counter <- INC <- counter
+    reverse_counter <- DEC <- reverse_counter
+    reverse_counter ? NIP <- #main_loop
+    NIP <- #HLT
+
+handle_tens_no_print:
+   ones <- #0
+   ones_rev <- #10
+   printable_ones <- #48
+   tens <- INC <- tens
+   tens_rev <- DEC <- tens_rev
+   printable_tens <- INC <- printable_tens
+   overten <- #1
+   !tens ? NIP <- handle_hundreds_no_print
+   counter <- INC <- counter
+   reverse_counter <- DEC <- reverse_counter
+   reverse_counter ? NIP <- #main_loop
+   NIP <- #HLT
+
+handle_hundreds_no_print:
+   tens <- #0
+   tens_rev <- #10
+   printable_tens <- #48
+   hundreds <- INC <- hundreds
+   hundreds_rev <- DEC <- hundreds_rev
+   printable_hundreds <- INC <- printable_hundreds
+   overhundreds <- #1
+   !hundreds_rev ? NIP <- handle_thousands_no_print
+   counter <- INC <- counter
+   reverse_counter <- DEC <- reverse_counter
+   reverse_counter ? NIP <- #main_loop
+   NIP <- #HLT
+
+handle_thousands_no_print:
+   hundreds <- #0
+   hundreds_rev <- #10
+   printable_hundreds <- #48
+   thousands <- INC <- thousands
+   thousands_rev <- DEC <- thousands_rev
+   printable_thousands <- INC <- printable_thousands
+   overthousands <- #1
+   counter <- INC <- counter
+   reverse_counter <- DEC <- reverse_counter
+   reverse_counter ? NIP <- #main_loop
+   NIP <- #HLT
+
+handle_printing:
+   !ones_rev ? NIP <- #inc_tens
+   overten ? NIP <- #handle_tens
+   PRN <- printable_ones
+   PRN <- #10
+   NIP <- #increment_counter
+
+; increment tens and reset ones to 0
+inc_tens:
+   ones <- #0
+   ones_rev <- #10
+   printable_ones <- #48
+   tens <- INC <- tens
+   tens_rev <- DEC <- tens_rev
+   printable_tens <- INC <- printable_tens
+   NIP <- #handle_tens
+
+handle_tens:
+   overten <- #1
+   !tens_rev ? NIP <- #inc_hundreds
+   overhundreds ? NIP <- #handle_hundreds
+   PRN <- printable_tens
+   PRN <- printable_ones
+   PRN <- #10
+   NIP <- #increment_counter
+
+; increment hundreds and reset tens to 0
+inc_hundreds:
+   tens <- #0
+   tens_rev <- #10
+   printable_tens <- #48
+   hundreds <- INC <- hundreds
+   hundreds_rev <- DEC <- hundreds_rev
+   printable_hundreds <- INC <- printable_hundreds
+   NIP <- #handle_hundreds
+
+handle_hundreds:
+   overhundreds <- #1
+   !hundreds_rev ? NIP <- #inc_thousands
+   overthousands ? NIP <- #handle_thousands
+   PRN <- printable_hundreds
+   PRN <- printable_tens
+   PRN <- printable_ones
+   PRN <- #10
+   NIP <- #increment_counter
+
+; increment thousands and reset hundreds to 0
+inc_thousands:
+   hundreds <- #0
+   hundreds_rev <- #10
+   printable_hundreds <- #48
+   thousands <- INC <- thousands
+   thousands_rev <- DEC <- thousands_rev
+   printable_thousands <- INC <- printable_thousands
+   !thousands_rev ? NIP <- #HLT
+   NIP <- #handle_thousands
+
+handle_thousands:
+   overthousands <- #1
+   PRN <- printable_thousands
+   PRN <- printable_hundreds
+   PRN <- printable_tens
+   PRN <- printable_ones
+   PRN <- #10
+   NIP <- #increment_counter

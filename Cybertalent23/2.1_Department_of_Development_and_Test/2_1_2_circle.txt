@@ -1,0 +1,88 @@
+% RAS:0 SIM:13 ALU:1 FPU:2 MDU:3
+; Read radius from the input module
+; 0,0 is top left remember..
+center_x: 128
+center_y: 128
+radius <- IDA
+!radius ? radius <- #1
+left_bound: 0
+right_bound: 0
+top_bound: 0
+bottom_bound: 0
+dx_sq: 0
+dy_sq: 0
+distance_sq: 0
+radius: 0
+; Clear the framebuffer - set all pixels to color 0 (black)
+RAC <- #0
+center_x <- #128
+center_y <- #128
+
+; Define the square region that contains the circle
+FPX <- center_x
+FPY <- radius
+left_bound <- FDF
+FPY <- center_x
+FPX <- radius
+right_bound <- FSM
+FPX <- center_y
+FPY <- radius
+top_bound <- FDF
+bottom_bound <- FSM
+; DBG <- left_bound
+; DBG <- right_bound
+; DBG <- top_bound
+; DBG <- bottom_bound
+
+; Draw the circle
+draw_circle:
+    RAX <- left_bound
+    circle_loop_x:
+        RAY <- top_bound
+        circle_loop_y:
+            ; Calculate the distance from the center
+            ALX <- RAX
+            ALY <- center_x
+            MUX <- DIF  ; dx = RAX - center_x
+            MUY <- DIF
+            dx_sq <- UPL
+
+            ALX <- RAY
+            ALY <- center_y
+            MUX <- DIF  ; dy = RAY - center_y
+            MUY <- DIF
+            dy_sq <- UPL
+
+            ; Sum dx^2 and dy^2
+            ALX <- dx_sq
+            ALY <- dy_sq
+            distance_sq <- SUM
+
+            ; Compare with radius squared
+            MUX <- radius
+            MUY <- radius
+            ALY <- UPL    ; r^2
+            DBG <- ALY
+            ALX <- distance_sq   ; dist^2
+            DBG <- ALX
+            ULT ? RAW <- #12 ; color 12 for inside
+            !ULT ? RAW <- #0  ; color 0 for outside
+
+            ; Check if the end of Y loop is reached
+            RAY <- INC <- RAY
+            ALX <- RAY
+            ALY <- bottom_bound
+            !EQU ? NIP <- #circle_loop_y
+
+        ; Check if the end of X loop is reached
+        RAX <- INC <- RAX
+        ALX <- RAX
+        ALY <- right_bound
+        !EQU ? NIP <- #circle_loop_x
+
+
+; Output the framebuffer to the display
+RAD <- #0
+
+; Halt the program
+NIP <- #HLT
