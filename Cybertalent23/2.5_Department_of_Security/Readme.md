@@ -4,7 +4,7 @@ Lå en FLAGG-fil, hentet med get FLAGG
 
 passFTP> get FLAGG\
 Downloading file FLAGG\
-FLAGG: c935921a63c755f7954aa7b43c858c67\
+FLAGG: c935921a63c755f7954aa7b43c858c67
 ```
 login@corax:~$ scoreboard FLAG{c935921a63c755f7954aa7b43c858c67}
 Kategori: 2.5. Department of Security
@@ -22,13 +22,13 @@ Denne nevner noe om at passordbeskyttede mapper har en egen .pass fil som sammen
 Kjører bare `get passFTP_shared/.pass` og får dette passordet\
 Jeg innså også litt senere at jeg egentlig bare kunne gjort `cd passFTP_shared/src` da denne ikke har noen .pass-fil.
 
-Inne i kildekoden finner jeg hint til dette\
-        // Use strncmp it's annoying to remove newlines from user input...\
-        // TODO: Fix so you can't login with extra characters in username or password\
+Inne i kildekoden finner jeg hint til dette
+>        // Use strncmp it's annoying to remove newlines from user input...\
+>        // TODO: Fix so you can't login with extra characters in username or password
 
 Finner ut at jeg kan logge inn som anonymous:anonymous, så antar at jeg skal lage en payload etter dette.\
 Tester diverse, tenkte først jeg skal komme meg inn som brukernavn "user" men dette viste seg å være feil\
-Etter å ha sett litt på printf-funksjonen innser jeg at hvis bufferet blir for langt så vil ikke null-byten som avslutter strengen sendes til printf.\
+Etter å ha sett litt på printf-funksjonen innser jeg at hvis bufferet blir for langt så vil ikke null-byten som avslutter strengen sendes til printf.
 ```
 login@corax:~/2_oppdrag/5_department_of_security$ nc passftp.utl 1024
 Welcome to passFTP Server v1.0
@@ -71,14 +71,15 @@ Ny fil: /home/login/2_oppdrag/access16-v1.6.mos
 ```
 
 # 2.5.3_passftp
-Innså tidlig at det er put som skal brukes for å kunne komme seg inn som adminbruker.
+Innså tidlig at det er put som skal brukes for å kunne komme seg inn som adminbruker, da put brukte gets(buffer) som er vulnerable til buffer overflows, og kjent for å være en farlig funksjon.\
+Lagde en basic payload:
 ```
 buffer_size = 536
 shell_function_address = p64(0x0040278d, endian='little')
 payload = b'A' * buffer_size + shell_function_address
 ```
 Fant addressen for å kjøre shell fra at jeg kompilerte mitt eget program og kjørte det gjennom IDA.\
-Dette funket lokalt for å åpne shell, men på remote passFTP-serveren funket det ikke...\
+Dette funket lokalt for å åpne shell, men på remote passFTP-serveren funket det ikke...
 
 Skjønte at det bare var at adressene var på en annen plass. Testet bare diverse verdier som shell_function_address og fant til slutt 0x0040238d som addressen der det blir skrevet ut "Invalid filename" i remote.\
 Testet først for "Invalid filename"-addressen som lå i put-funksjonen, men fant fort ut at det var den som lå i get, fant differansen mellom remote og min egen og fant til slutt 0x0040265e\
