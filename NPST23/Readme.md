@@ -18,7 +18,7 @@ ChatGPT er brukt en del for å skrive kode når jeg vet hva som trengs, så hvis
 - [Dag 12 - Pakkestorm](#dag-12---pakkestorm)
 - [Dag 13 - Geogjettr](#dag-13---geogjettr)
 - [Dag 14 - Bokorm](#dag-14---bokorm)
-- [Dag 15 - Bit-råte](#dag-15---bit-raate)
+- [Dag 15 - Bit-råte](#dag-15---bit-råte)
 - [Dag 16 - Invasjon](#dag-16---invasjon)
 - [Dag 17 - Innebygde ord](#dag-17---innebygde-ord)
 - [Dag 18 - Melding fra antikken](#dag-18---melding-fra-antikken)
