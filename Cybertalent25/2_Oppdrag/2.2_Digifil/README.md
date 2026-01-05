@@ -14,7 +14,7 @@ https://digifil.ctf.cybertalent.no
 Fant https://digifil.ctf.cybertalent.no/api/users fra source\
 {"users":["Chris Adams","David Mills"]}
 
-Hentet sign(user) fra source, seed er alltid ''\
+Hentet sign(user) fra source, seed er alltid `''`\
 Så var det bare å kjøre get på digifil.ctf.cybertalent.no/files/{user}/{signature} for så å finne contents i hver fil.
 
 ```sh
