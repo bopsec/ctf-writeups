@@ -1,0 +1,25 @@
+#!/usr/bin/python
+import sys
+
+sys.stderr.write('Dessverre har Nissens hjelpere oppdaget at du har jukset\n')
+sys.stderr.write('i CTF, og du har blitt plassert i Nissens slemmefengsel.\n\n')
+
+sys.stderr.write('Nissen ønsker likevel å gi deg ett ønske.\n\n')
+
+sys.stderr.write('Skriv inn ønskelisten din: ')
+i = raw_input()
+
+if len(i) > 35:
+    sys.stderr.write('Ønskelisten din er for lang\n')
+    sys.exit(1)
+
+for c in 'cybertalent \\^_^/':
+    if c in i:
+        sys.stderr.write('Ønskelisten din inneholder ønsker som ikke er tillatt\n')
+        sys.exit(1)
+
+try:
+    _ = eval(eval(i, {}, {}), {}, {})
+    sys.stderr.write('Nissen har mottatt ønskelisten din\n')
+except:
+    sys.stderr.write('Nissen kunne ikke lese ønskelisten din\n')

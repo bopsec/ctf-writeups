@@ -1,0 +1,48 @@
+{{ define "menu_partial" }}
+<style>
+    .menu {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .menu h1 {
+        font-size: 18px;
+        margin: 0 0 12px 0;
+        color: var(--light);
+    }
+
+    .menu a {
+        display: block;
+        padding: 8px;
+        border-radius: 6px;
+        color: var(--light);
+    }
+
+    .menu a:hover {
+        background: var(--darkhover)
+    }
+</style>
+
+<div class="menu">
+    <h1>Menu</h1>
+    <a href="/home">Home</a>
+    {{ if .IsAdmin }}
+    <a href="/service">Service</a>
+    {{ end }}
+    <a href="/config">Config</a>
+    <a href="/file">Files</a>
+
+    <form method="post" action="/session/logout" style="margin-top:auto;">
+        <button class="btn" type="submit" style="width:100%;">
+            Logout
+        </button>
+    </form>
+
+    {{ if not .IsAdmin }}
+    <button class="btn btn-secondary" type="button" style="margin-top:8px;" onclick="window.location.href='/pin'">
+        Admin
+    </button>
+    {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,195 @@
+{{ define "file_edit_page" }}
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .file-layout {
+            display: flex;
+            gap: 32px;
+            margin-top: 24px;
+            height: calc(100vh - 140px);
+        }
+
+        .file-menu {
+            width: 260px;
+            flex-shrink: 0;
+            background: var(--darkestdark);
+            border: 1px solid var(--darkhover);
+            border-radius: 10px;
+            padding: 16px 14px;
+        }
+
+        .file-menu-section {
+            margin-top: 12px;
+        }
+
+        .file-menu-section:first-of-type {
+            margin-top: 0;
+        }
+
+        .file-menu-section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--light);
+            margin-bottom: 6px;
+        }
+
+        .file-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .file-menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            border-radius: 6px;
+            background: var(--darkestdark);
+            border: 1px solid var(--darkhover);
+            color: var(--light);
+            font-size: 13px;
+        }
+
+        .file-menu-item:hover {
+            background: var(--darkhover);
+        }
+
+        .file-menu-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-menu-empty {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .file-editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .editor-form {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .editor {
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .editor-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+            gap: 8px;
+        }
+
+        .file-empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">Coffee machine</div>
+    <div class="layout">
+        <div class="left">
+            {{ template "menu_partial" . }}
+        </div>
+
+        <div class="right">
+            {{ if .FlashMessage }}
+            <div class="flash flash-{{ .FlashKind }}">{{ .FlashMessage }}</div>
+            {{ end }}
+
+            <div class="section" style="margin-top:24px; height:100%;">
+                <h2>Configuration files</h2>
+
+                <div class="file-layout">
+                    <div class="file-menu">
+                        {{ if or .UserFiles .AdminFiles }}
+                        <div class="file-menu-section">
+                            <div class="file-menu-section-label">User files</div>
+                            {{ if .UserFiles }}
+                            <div class="file-menu-list">
+                                {{ range .UserFiles }}
+                                <a href="/file/{{ . }}" class="file-menu-item">
+                                    <span class="file-menu-name">{{ . }}</span>
+                                </a>
+                                {{ end }}
+                            </div>
+                            {{ else }}
+                            <div class="file-menu-empty">No user files.</div>
+                            {{ end }}
+                        </div>
+
+                        {{ if .IsAdmin }}
+                        <div class="file-menu-section">
+                            <div class="file-menu-section-label">Admin files</div>
+                            {{ if .AdminFiles }}
+                            <div class="file-menu-list">
+                                {{ range .AdminFiles }}
+                                <a href="/file/{{ . }}" class="file-menu-item">
+                                    <span class="file-menu-name">{{ . }}</span>
+                                </a>
+                                {{ end }}
+                            </div>
+                            {{ else }}
+                            <div class="file-menu-empty">No admin files.</div>
+                            {{ end }}
+                        </div>
+                        {{ end }}
+                        {{ else }}
+                        <div class="file-menu-empty">No files available.</div>
+                        {{ end }}
+                    </div>
+
+                    <div class="file-editor-container">
+                        {{ if .Path }}
+                        <h3 style="margin-top:0;">Edit {{ .Path }}</h3>
+                        <form method="post" action="/file/{{ .Path }}" class="editor-form">
+                            <textarea name="content" class="editor">{{ .Content }}</textarea>
+                            <div class="editor-actions">
+                                <a href="/file" class="btn btn-secondary">Cancel</a>
+                                <button class="btn" type="submit">Save file</button>
+                            </div>
+                        </form>
+                        {{ else }}
+                        <div class="file-empty-state">
+                            <h3 style="margin-top:0;">File not found</h3>
+                            <p>Select a file in the menu on the left to start editing.</p>
+                        </div>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+{{ end }}

@@ -1,0 +1,43 @@
+{{ define "pin_page" }}
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }}</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+  <div class="header">Coffee machine</div>
+  <div class="layout">
+    <div class="left">
+      {{ template "menu_partial" . }}
+    </div>
+    <div class="right">
+      {{ if .FlashMessage }}
+      <div class="flash flash-{{ .FlashKind }}">{{ .FlashMessage }}</div>
+      {{ end }}
+
+      <div class="section" style="margin-top:24px;">
+        <h2>Elevate permissions</h2>
+        <p>Enter the service password for advanced settings.</p>
+        <form method="post" action="/session/admin/pin">
+          <div style="margin-top:8px;">
+            <label for="password">
+              Password
+              <input id="password" name="password" type="password" inputmode="numeric" pattern="[0-9]*" required>
+            </label>
+          </div>
+          <div class="actions-right">
+            <button class="btn btn-secondary" type="button" onclick="history.back()">Cancel</button>
+            <button class="btn" type="submit">Unlock</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+{{ end }}

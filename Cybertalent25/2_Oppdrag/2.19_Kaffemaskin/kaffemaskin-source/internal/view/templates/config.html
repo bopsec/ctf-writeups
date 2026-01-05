@@ -1,0 +1,52 @@
+{{ define "config_page" }}
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <div class="header">Coffee machine</div>
+    <div class="layout">
+        <div class="left">
+            {{ template "menu_partial" . }}
+        </div>
+
+        <div class="right">
+            {{ if .FlashMessage }}
+            <div class="flash flash-{{ .FlashKind }}">{{ .FlashMessage }}</div>
+            {{ end }}
+
+            <div class="section" style="margin-top:24px;">
+                <h2>Background image</h2>
+                <p>Upload a new background image (max 2 MB).</p>
+
+                <form method="post" action="/config/background" enctype="multipart/form-data">
+                    <input type="file" name="background" accept="image/png" required>
+                    <div class="actions-right">
+                        <button class="btn btn-secondary" type="reset">Clear</button>
+                        <button class="btn" type="submit">Upload</button>
+                    </div>
+                </form>
+            </div>
+
+            {{ if .IsAdmin }}
+            <div class="section" style="margin-top:24px;">
+                <h2>Admin</h2>
+                <div class="actions">
+                    <a class="btn" href="/config/source">
+                        Download source code
+                    </a>
+                    {{ raw "<!-- add button for downloading server source, GET /config/source/server -->" }}
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</body>
+
+</html>
+{{ end }}

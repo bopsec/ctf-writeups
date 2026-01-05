@@ -1,0 +1,47 @@
+{{ define "login_page" }}
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .login {
+            max-width: 360px;
+            margin: 10vh auto;
+            padding: 16px;
+            background: #1b041f;
+            border: 1px solid var(--darker);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login">
+        <h1>Coffee Login</h1>
+
+        {{ if .FlashMessage }}
+        <div class="flash flash-{{ .FlashKind }}">{{ .FlashMessage }}</div>
+        {{ end }}
+
+        {{ raw "<!-- default credentials: admin:coffee -->" }}
+        <form method="post" action="/session/login">
+            <div>
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" autocomplete="username">
+            </div>
+            <div style="margin-top:8px">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" autocomplete="current-password">
+            </div>
+            <div class="actions-right">
+                <button class="btn" type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+{{ end }}

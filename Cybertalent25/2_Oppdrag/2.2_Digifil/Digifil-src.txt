@@ -1,0 +1,389 @@
+var crypto = require('crypto')
+var express = require('express')
+var path = require('path')
+var fs = require('fs')
+var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
+var hljs = require('highlight.js')
+var app = express()
+
+var FILES_DIR = path.join(__dirname, 'files')
+var registeredUsers = []
+
+function initializeUsers() {
+  try {
+    if (!fs.existsSync(FILES_DIR)) {
+      fs.mkdirSync(FILES_DIR, { recursive: true })
+      return
+    }
+    
+    registeredUsers = fs.readdirSync(FILES_DIR, { withFileTypes: true })
+      .filter(function(dirent) {
+        return dirent.isDirectory() && /^[a-zA-Z]+$/.test(dirent.name)
+      })
+      .map(function(dirent) {
+        return dirent.name.toLowerCase()
+      })
+  } catch (err) {
+    registeredUsers = []
+  }
+}
+
+function getUserFiles(user) {
+  var userDir = path.join(FILES_DIR, usernameToDir(user))
+  
+  if (!fs.existsSync(userDir)) {
+    return null
+  }
+  
+  try {
+    var files = fs.readdirSync(userDir)
+      .filter(function(filename) {
+        if (filename.startsWith('.')) {
+          return false
+        }
+        var filePath = path.join(userDir, filename)
+        try {
+          return fs.statSync(filePath).isFile()
+        } catch (statErr) {
+          return false
+        }
+      })
+      .map(function(filename) {
+        var filePath = path.join(userDir, filename)
+        var fileExt = filename.split('.').pop().toLowerCase()
+        var content
+        
+        try {
+          if (fileExt === 'pdf') {
+            var fileBuffer = fs.readFileSync(filePath)
+            content = fileBuffer.toString('base64')
+          } else {
+            content = fs.readFileSync(filePath, 'utf8')
+          }
+        } catch (readErr) {
+          content = '[Error reading file]'
+        }
+        
+        return {
+          name: filename,
+          content: content,
+          isBinary: fileExt === 'pdf'
+        }
+      })
+    
+    return files.length > 0 ? files : null
+  } catch (err) {
+    return null
+  }
+}
+
+function getAllUsers() {
+  try {
+    if (!fs.existsSync(FILES_DIR)) {
+      return []
+    }
+    
+    return fs.readdirSync(FILES_DIR, { withFileTypes: true })
+      .filter(function(dirent) {
+        return dirent.isDirectory() && /^[a-zA-Z]+$/.test(dirent.name)
+      })
+      .map(function(dirent) {
+        return dirToDisplayName(dirent.name)
+      })
+  } catch (err) {
+    return []
+  }
+}
+
+initializeUsers()
+
+function isUserRegistered(user) {
+  var userDir = path.join(FILES_DIR, usernameToDir(user))
+  return fs.existsSync(userDir) && fs.statSync(userDir).isDirectory()
+}
+
+function registerUser(user) {
+  var userDirName = usernameToDir(user)
+  var userDir = path.join(FILES_DIR, userDirName)
+  
+  if (fs.existsSync(userDir)) {
+    return false
+  }
+  
+  try {
+    fs.mkdirSync(userDir, { recursive: true })
+    var usernameFile = path.join(userDir, '.username')
+    fs.writeFileSync(usernameFile, user, 'utf8')
+    if (registeredUsers.indexOf(userDirName) === -1) {
+      registeredUsers.push(userDirName)
+    }
+    return true
+  } catch (err) {
+    return false
+  }
+}
+
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
+
+function sha256_buf(data) {
+    return crypto
+        .createHash('sha256')
+        .update(data)
+        .digest()
+}
+
+function xor(a, b) {
+    if (a.length !== b.length) {
+        throw new Error('Buffer lengths must match')
+    }
+
+    var out = Buffer.alloc(a.length)
+    for (var i = 0; i < a.length; i++) {
+        out[i] = a[i] ^ b[i]
+    }
+    return out
+}
+
+function sign(user) {
+    var SEED = ''
+    for (var i=0; i<20; i++) ЅEED = SEED + (Math.random()+'').substr(2)
+    var userHash = sha256_buf(user)
+    var sig = xor(userHash, sha256_buf(SEED))
+    var signature = sig.toString('hex')
+    return signature
+}
+  
+function user_possible(user) {
+  return /^[a-zA-Z\s]+$/.test(user) && user.trim().length > 0
+}
+
+function usernameToDir(username) {
+  return username.toLowerCase().trim().replace(/\s+/g, '')
+}
+
+function getOriginalUsername(dirName) {
+  try {
+    var userDir = path.join(FILES_DIR, dirName)
+    var usernameFile = path.join(userDir, '.username')
+    if (fs.existsSync(usernameFile)) {
+      return fs.readFileSync(usernameFile, 'utf8').trim()
+    }
+  } catch (err) {
+  }
+  return dirName
+}
+
+function dirToDisplayName(dirName) {
+  var originalUsername = getOriginalUsername(dirName)
+  if (originalUsername && originalUsername !== dirName) {
+    return originalUsername
+  }
+  return dirName
+}
+
+app.get('/files/:user/:signature', function(req, res) {
+  var user = req.params.user
+  var signature = req.params.signature
+
+  if (!user_possible(user)) return res.send('bad user')
+  if (sign(user) !== signature) return res.send('bad signature')
+
+  var files = getUserFiles(user)
+  if (!files) return res.send('no files')
+  
+  res.set('Content-Type', 'text/plain')
+  var output = files.map(function(file) {
+    return file.name + ':\n' + file.content
+  }).join('\n\n')
+  res.send(output)
+})
+
+app.post('/logout', function(req, res) {
+  res.clearCookie('token')
+  res.clearCookie('username')
+  res.json({ success: true})
+})
+
+app.get('/api/users', function(req, res) {
+  var users = getAllUsers()
+  res.json({ users: users })
+})
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
+
+app.get('/source', (req, res) => {
+  const filePath = path.join(__dirname, 'index.js');
+  fs.readFile(filePath, 'utf8', (err, code) => {
+    if (err) return res.status(500).send('Server error');
+    const highlighted = hljs.highlight(code, { language: 'javascript' }).value;
+    const html = `
+      <!doctype html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <link rel="stylesheet" href="/assets/theme.css">
+	  <style>html, body { margin: 0; padding: 0; } pre { margin: 0; }</style>
+        </head>
+        <body>
+          <pre><code class="hljs javascript">${highlighted}</code></pre>
+        </body>
+      </html>`;
+    res.type('html').send(html);
+  });
+});
+
+app.get('/user/:user', function(req, res) {
+  var user = req.params.user
+  var token = req.cookies.token
+  var loggedInUsername = req.cookies.username
+  var wantsJson = req.headers.accept && req.headers.accept.includes('application/json')
+  
+  if (!user_possible(user)) {
+    if (wantsJson) {
+      return res.status(400).json({ error: 'Ugyldig brukernavn' })
+    }
+    return res.status(400).send('bad user')
+  }
+  
+  if (!token) {
+    if (wantsJson) {
+      return res.status(403).json({ error: 'Ingen token funnet.' })
+    }
+    return res.status(403).send('Ingen token funnet.')
+  }
+  
+  var expectedSignature = sign(user)
+  
+  if (token !== expectedSignature) {
+    var errorMsg = 'Du har ikke tilgang til denne brukeren.'
+    if (wantsJson) {
+      return res.status(403).json({ error: errorMsg })
+    }
+    return res.status(403).send(errorMsg)
+  }
+  
+  var files = getUserFiles(user)
+  
+  if (!files) {
+    files = []
+  }
+  
+  if (wantsJson) {
+    return res.json({ files: files })
+  }
+  
+  if (files.length === 0) {
+    function escapeHtml(text) {
+      var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }
+      return text.replace(/[&<>"']/g, function(m) { return map[m] })
+    }
+    
+    var html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>' + user + ' - Files</title>'
+    html += '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">'
+    html += '<link rel="stylesheet" type="text/css" href="/assets/win95.css" crossorigin="anonymous">'
+    html += '<link href="https://fonts.cdnfonts.com/css/w95fa" rel="stylesheet" crossorigin="anonymous">'
+    html += '<style>body{overflow-x:hidden;font-family:"W95FA","Microsoft Sans Serif","MS Sans Serif","Segoe UI",Arial,sans-serif}</style>'
+    html += '</head><body class="bg-cloud">'
+    html += '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">'
+    html += '<h1 class="display-4">' + user + ' - Files</h1>'
+    html += '</div>'
+    html += '<div class="container"><div class="row justify-content-center"><div class="col-md-6">'
+    html += '<div class="card"><div class="card-header icon"><h4 class="my-0 font-weight-normal">Files</h4></div>'
+    html += '<div class="card-body"><a href="/" class="btn btn-secondary mb-3">← Back to home</a>'
+    html += '<div class="mt-3"><p class="text-muted">No files found.</p></div>'
+    html += '</div></div></div></div></div></body></html>'
+    return res.send(html)
+  }
+  
+  function escapeHtml(text) {
+    var map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    }
+    return text.replace(/[&<>"']/g, function(m) { return map[m] })
+  }
+  
+  function getFileIcon(ext) {
+    var icons = {
+      'txt': '📄',
+      'pdf': '📕',
+    }
+    return icons[ext] || '📁'
+  }
+  
+  var html = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>' + user + ' - Files</title>'
+  html += '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">'
+  html += '<link rel="stylesheet" type="text/css" href="/assets/win95.css" crossorigin="anonymous">'
+  html += '<link href="https://fonts.cdnfonts.com/css/w95fa" rel="stylesheet" crossorigin="anonymous">'
+  html += '<style>'
+  html += 'body{overflow-x:hidden;font-family:"W95FA","Microsoft Sans Serif","MS Sans Serif","Segoe UI",Arial,sans-serif}'
+  html += '.file-display-card{border:2px solid;border-color:#fff #424242 #424242 #fff;background:#c0c0c0;padding:3px;margin-bottom:20px;box-shadow:2px 2px 4px rgba(0,0,0,0.2)}'
+  html += '.file-display-header{background:-webkit-linear-gradient(left,#08216b,#a5cef7);color:#fff;padding:8px 12px;display:flex;align-items:center;gap:12px;min-height:32px;font-weight:bold}'
+  html += '.file-icon{font-size:1.5em;line-height:1;filter:drop-shadow(1px 1px 1px rgba(0,0,0,0.3))}'
+  html += '.file-display-name{flex:1;font-size:1em;text-shadow:1px 1px 2px rgba(0,0,0,0.3)}'
+  html += '.file-display-content{background:#fff;padding:16px;min-height:120px;border:2px inset #d5d5d5;box-shadow:inset 2px 2px 4px rgba(0,0,0,0.1)}'
+  html += '.file-text-content{font-family:"Courier New",monospace;font-size:0.95em;white-space:pre-wrap;word-break:break-word;margin:0;background:#f9f9f9;padding:15px;border:1px inset #d5d5d5;max-height:500px;overflow-y:auto;line-height:1.6;box-shadow:inset 1px 1px 2px rgba(0,0,0,0.1)}'
+  html += '.pdf-container{background:#f0f0f0;padding:2px;border:1px inset #d5d5d5;box-shadow:inset 1px 1px 1px rgba(0,0,0,0.1);margin-bottom:12px;max-width:900px;margin-left:auto;margin-right:auto}'
+  html += '.pdf-viewer{width:100%;height:500px;border:2px solid #808080;background:#fff;box-shadow:inset 2px 2px 4px rgba(0,0,0,0.2);display:block;max-width:100%}'
+  html += '.file-download-link{margin-top:12px;text-align:center;padding-top:8px;border-top:1px solid #d5d5d5}'
+  html += '.file-download-link .btn{min-width:150px;font-weight:bold;box-shadow:2px 2px 4px rgba(0,0,0,0.2)}'
+  html += '.file-info{background:#e8e8e8;padding:8px 12px;margin-bottom:8px;border:1px inset #d5d5d5;font-size:0.85em;color:#333;display:flex;justify-content:space-between;align-items:center}'
+  html += '</style>'
+  html += '</head><body class="bg-cloud">'
+  html += '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">'
+  html += '<h1 class="display-4">' + user + ' - Files</h1>'
+  html += '</div>'
+  html += '<div class="container"><div class="row justify-content-center"><div class="col-md-8">'
+  html += '<div class="card"><div class="card-header icon"><h4 class="my-0 font-weight-normal">Files</h4></div>'
+  html += '<div class="card-body"><a href="/" class="btn btn-secondary mb-3">← Back to home</a>'
+  html += '<div class="mt-3">'
+  
+  files.forEach(function(file) {
+    var fileName = escapeHtml(file.name)
+    var fileExt = fileName.split('.').pop().toLowerCase()
+    
+    html += '<div class="file-display-card mb-3">'
+    html += '<div class="file-display-header">'
+    html += '<span class="file-icon">' + getFileIcon(fileExt) + '</span>'
+    html += '<strong class="file-display-name">' + fileName + '</strong>'
+    html += '</div>'
+    html += '<div class="file-display-content">'
+    
+    if (file.isBinary || fileExt === 'pdf') {
+      var pdfBase64 = file.isBinary ? file.content : Buffer.from(file.content).toString('base64')
+      html += '<div class="pdf-container">'
+      html += '<iframe src="data:application/pdf;base64,' + pdfBase64 + '#toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit" class="pdf-viewer" frameborder="0" title="PDF Viewer"></iframe>'
+      html += '</div>'
+      html += '<div class="file-download-link">'
+      html += '<a href="data:application/pdf;base64,' + pdfBase64 + '" download="' + fileName + '" class="btn btn-secondary btn-sm">⬇ Download PDF</a>'
+      html += '</div>'
+    } else {
+      html += '<pre class="file-text-content">' + escapeHtml(file.content) + '</pre>'
+    }
+    
+    html += '</div></div>'
+  })
+  
+  html += '</div></div></div></div></div></div></body></html>'
+  res.send(html)
+})
+
+const PORT = process.env.PORT || 80
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`)
+})

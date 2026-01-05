@@ -1,0 +1,150 @@
+{{ define "home_page" }}
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }}</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <style>
+    .home-hero {
+      width: 520px;
+      height: 960px;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url('/assets/images/backgrounds/background.png') center / cover no-repeat;
+      border-radius: 24px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .home-select {
+      width: 60%;
+      max-width: 420px;
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">Coffee machine</div>
+  <div class="layout">
+    <div class="left">
+      {{ template "menu_partial" . }}
+    </div>
+    <div class="right">
+      {{ if .FlashMessage }}
+      <div class="flash flash-{{ .FlashKind }}">{{ .FlashMessage }}</div>
+      {{ end }}
+
+      <div style="display:flex; justify-content:center; margin-top:32px; margin-bottom:32px;">
+        <div class="home-hero" style="margin:0 auto; padding:32px; text-align:center;">
+          <h2 style="margin:0 0 8px 0; font-size:24px;">Coffee machine</h2>
+          <p style="margin:0 0 16px 0; font-size:14px;">
+            Status:
+            {{ if .IsBrewing }}Brewing{{ else }}Ready{{ end }}
+          </p>
+
+          <div id="brew-progress" data-current="{{ .State.CurrentProgress }}" data-total="{{ .State.TimeToBrew }}"
+            style="display:none; margin-top:16px; width:60%; max-width:420px; margin-left:auto; margin-right:auto;">
+            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+              <span id="brew-progress-label">Brewing</span>
+              <span id="brew-progress-time">0 / 0 s</span>
+            </div>
+            <div style="width:100%; height:10px; border-radius:4px; background:#1b041f; overflow:hidden;">
+              <div id="brew-progress-bar" style="height:100%; background:var(--highliter); width:0%;"></div>
+            </div>
+          </div>
+
+          <div id="brew-ready" style="display:none; margin-top:8px; font-size:14px;"></div>
+
+          <form method="post" action="/brewer/run" style="width:100%;">
+            <div class="home-select" style="margin-top:8px; margin-left:auto; margin-right:auto;">
+              <label for="coffee-select" style="display:block; margin-bottom:4px; font-size:14px;">
+                Choose coffee
+              </label>
+              <select id="coffee-select" name="coffee">
+                <option value="">Select a drink</option>
+                {{ range .Drinks }}
+                <option value="{{ .ID }}">{{ .Name }}</option>
+                {{ end }}
+              </select>
+            </div>
+
+            <button id="brew-start" class="btn" type="submit" {{ if .IsBrewing }}disabled{{ end }}
+              style="margin-top:16px; padding:10px 32px; font-size:16px;">
+              {{ if .IsBrewing }}
+              Brewing in progress
+              {{ else }}
+              Start
+              {{ end }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var progressEl = document.getElementById('brew-progress');
+      if (!progressEl) return;
+
+      var current = parseInt(progressEl.dataset.current || '0', 10);
+      var total = parseInt(progressEl.dataset.total || '0', 10);
+      if (!total) return;
+
+      var barEl = document.getElementById('brew-progress-bar');
+      var timeEl = document.getElementById('brew-progress-time');
+      var readyEl = document.getElementById('brew-ready');
+      var startBtn = document.getElementById('brew-start');
+
+      function render() {
+        if (current <= 0 || current > total) {
+          progressEl.style.display = 'none';
+          return;
+        }
+        progressEl.style.display = 'block';
+        var pct = Math.round((current / total) * 100);
+        barEl.style.width = pct + '%';
+        timeEl.textContent = current + ' / ' + total + ' s';
+      }
+
+      render();
+
+      if (current > 0 && current < total) {
+        if (startBtn) {
+          startBtn.disabled = true;
+          startBtn.textContent = 'Brewing in progress';
+        }
+
+        var timer = setInterval(function () {
+          current++;
+
+          if (current >= total) {
+            clearInterval(timer);
+            progressEl.style.display = 'none';
+
+            if (startBtn) {
+              startBtn.disabled = false;
+              startBtn.textContent = 'Start';
+            }
+
+            if (readyEl) {
+              readyEl.textContent = 'Your drink is ready!';
+              readyEl.style.display = 'block';
+            }
+          } else {
+            render();
+          }
+        }, 1000);
+      }
+    })();
+  </script>
+</body>
+
+</html>
+{{ end }}

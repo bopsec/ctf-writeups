@@ -1,0 +1,63 @@
+Michael Edwards (CEO GooodGames) · 01:17
+The 'update' has been deployed. The other developers don't suspect a thing. Look at this e-mail thread.
+Michael Edwards (CEO GooodGames) · 01:17
+From: bob.toss@gooodgames.leet
+To: ricky.roller@gooodgames.leet
+
+Subject: RE: RE: Code section
+
+Date: December 12, 2025, 10:17
+
+Hi Ricky,
+Okay, thanks. John's the boss.
+I don't get paid enough to care about this.
+
+Best regards,
+Bob
+Game Developer | GooodGames
+
+-------------------------------------------------------
+
+From: ricky.roller@gooodgames.leet
+To: bob.toss@gooodgames.leet
+
+Subject: RE: Code section
+
+Date: December 12, 2025, 10:14
+
+Hi Bob,
+Yes, I have looked at it. I thought it was a bit strange too, but John told me to just merge the patch.
+Apparently it's needed to fix a bug.
+
+Best regards,
+Ricky
+Game Developer | GooodGames
+
+-------------------------------------------------------
+
+From: bob.toss@gooodgames.leet
+To: ricky.roller@gooodgames.leet
+
+Subject: Code section
+
+Date: December 12, 2025, 10:06
+
+Hi Ricky,
+Have you had a look at the new patch for Douriosippos? 
+
+While debugging the game, I got some strange output:
+
+[gamerRig-01] Starting miner...
+[gamerRig-01] Hashrate: 1.42 MH/s | Nonce=0 | LastHash=3afc12d99183...
+[gamerRig-01] Hashrate: 0.87 MH/s | Nonce=5000 | LastHash=91bc78e33f11...
+[gamerRig-01] Hashrate: 1.12 MH/s | Nonce=10000 | LastHash=bb4701da3421...
+[gamerRig-01] Block found! Nonce=15322 Hash=00000ac23e8a...
+Submitting block to pool...
+Block accepted.
+Continuing mining...
+
+Best regards,
+Bob
+Game Developer | GooodGames
+System · 01:17
+Channel opened. You are now talking with Utlandia.

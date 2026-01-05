@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+def rol(val, n):
+    n = n % 8
+    return ((val << n) | (val >> (8 - n))) & 0xff
+
+xor_table = [
+    0xb5, 0x48, 0x17, 0x2f, 0xb2, 0x55, 0x35, 0x0a,
+    0x30, 0x80, 0xc9, 0xba, 0x01, 0x02, 0x03, 0x04,
+    0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c,
+    0x0d, 0x0e, 0x0f, 0x10, 0x11, 0x12, 0x13, 0x14
+]
+
+encrypted = [
+    0x09, 0xf9, 0x79, 0xf1, 0x90, 0x18, 0x2a, 0x3a,
+    0x04, 0xce, 0xff, 0xfd, 0x66, 0xd9, 0x9a, 0x30,
+    0xcc, 0xfc, 0x23, 0xe3, 0x4d, 0x9b, 0xb7, 0x3c,
+    0x6a, 0xe0, 0x63, 0x52, 0x84, 0x1d, 0x92, 0x27
+]
+
+def check_char(char_val, index, key):
+    if index % 2 == 1:
+        key ^= (char_val + (char_val << 4)) & 0xffffffff
+    else:
+        key = (key + ((char_val ^ 0xa5) & 0xff)) & 0xffffffff
+    
+    temp = xor_table[index] ^ char_val
+    temp = rol(temp, (index + 1) % 8)
+    
+    expected = (encrypted[index] ^ (index * 3)) & 0xff
+    
+    temp = (temp ^ (index * 3)) & 0xff
+    
+    return temp == expected, key
+
+# Brute force hver char, fins sikkert raskere måter
+password = ""
+key = 0x1234abcd
+
+for i in range(32):
+    found = False
+    for c in range(32, 127):  # printable ASCII
+        match, new_key = check_char(c, i, key)
+        if match:
+            password += chr(c)
+            key = new_key
+            found = True
+            break
+    if not found:
+        print(f"Fant ikke karakter på posisjon {i}")
+        break
+
+print(f"Passord: {password}")

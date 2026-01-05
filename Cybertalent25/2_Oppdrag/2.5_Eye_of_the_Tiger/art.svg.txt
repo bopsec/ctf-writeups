@@ -1,0 +1,182 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 400 200"
+    width="400"
+    height="500">
+
+  <defs>
+    <radialGradient id="catFur" cx="50%" cy="40%" r="75%">
+      <stop offset="0%" stop-color="#4a4a4a"/>
+      <stop offset="60%" stop-color="#1e1e1e"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </radialGradient>
+
+    <radialGradient id="innerEar" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a88989"/>
+      <stop offset="100%" stop-color="#7a6060"/>
+    </radialGradient>
+
+    <radialGradient id="bellyFur" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#787878"/>
+      <stop offset="100%" stop-color="#404040"/>
+    </radialGradient>
+
+    <radialGradient id="eyeIris" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b0f5c4"/>
+      <stop offset="40%" stop-color="#4ea872"/>
+      <stop offset="100%" stop-color="#1f5a3d"/>
+    </radialGradient>
+
+    <filter id="shadowSoft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="3" result="o"/>
+      <feMerge>
+        <feMergeNode in="o"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g id="cat" filter="url(#shadowSoft)" style="cursor:pointer;">
+
+    <path
+      d="M290 255 C330 235 350 200 345 175 C340 150 320 150 315 170 C310 190 305 212 290 230 Z"
+      fill="url(#catFur)" stroke="#333" stroke-width="2"/>
+
+    <ellipse cx="205" cy="240" rx="85" ry="100"
+             fill="url(#catFur)" stroke="#333" stroke-width="2"/>
+
+    <ellipse cx="205" cy="248" rx="55" ry="78"
+             fill="url(#bellyFur)" stroke="#555" stroke-width="1.5"/>
+
+
+    <g>
+      <ellipse cx="145" cy="325" rx="20" ry="13"
+               fill="#4d4d4d" stroke="#333" stroke-width="1.5"/>
+      <ellipse cx="265" cy="325" rx="20" ry="13"
+               fill="#4d4d4d" stroke="#333" stroke-width="1.5"/>
+    </g>
+
+
+    <g>
+      <rect x="155" y="225" width="30" height="95"
+            fill="url(#catFur)" stroke="#333" stroke-width="1.5"
+            rx="12" ry="12"/>
+      <rect x="225" y="225" width="30" height="95"
+            fill="url(#catFur)" stroke="#333" stroke-width="1.5"
+            rx="12" ry="12"/>
+
+      <ellipse cx="170" cy="330" rx="22" ry="15"
+               fill="#5a5a5a" stroke="#333" stroke-width="1.5"/>
+      <ellipse cx="240" cy="330" rx="22" ry="15"
+               fill="#5a5a5a" stroke="#333" stroke-width="1.5"/>
+    </g>
+
+
+
+    <g>
+      <circle cx="205" cy="145" r="65"
+              fill="url(#catFur)" stroke="#333" stroke-width="2"/>
+
+      <g>
+        <path d="M178 88 L155 55 L168 108 Z"
+              fill="url(#catFur)" stroke="#333" stroke-width="2"/>
+        <path d="M176 90 L160 62 L168 105 Z"
+              fill="url(#innerEar)" opacity="0.9"/>
+
+        <path d="M232 88 L255 55 L242 108 Z"
+              fill="url(#catFur)" stroke="#333" stroke-width="2"/>
+        <path d="M234 90 L250 62 L242 105 Z"
+              fill="url(#innerEar)" opacity="0.9"/>
+      </g>
+
+      <ellipse cx="205" cy="160" rx="48" ry="38"
+               fill="#3a3a3a" opacity="0.9"/>
+
+      <g id="eyes">
+        <ellipse cx="185" cy="140" rx="15" ry="18"
+                 fill="#fff" stroke="#333" stroke-width="1.5"/>
+        <ellipse cx="225" cy="140" rx="15" ry="18"
+                 fill="#fff" stroke="#333" stroke-width="1.5"/>
+
+        <circle cx="185" cy="140" r="9" fill="url(#eyeIris)"/>
+        <circle cx="225" cy="140" r="9" fill="url(#eyeIris)"/>
+
+        <ellipse cx="185" cy="140" rx="3" ry="7" fill="#111"/>
+        <ellipse cx="225" cy="140" rx="3" ry="7" fill="#111"/>
+
+        <circle cx="182" cy="135" r="2" fill="#fff" opacity="0.9"/>
+        <circle cx="222" cy="135" r="2" fill="#fff" opacity="0.9"/>
+
+
+        <rect id="n1"
+              x="224" y="139"
+              width="1" height="1"
+              fill="#331931" opacity="0.98"/>
+      </g>
+
+      <path d="M205 154 L197 165 L213 165 Z"
+            fill="#7a5a5a" stroke="#4a3a3a" stroke-width="1.5"/>
+
+      <g stroke="#6a5454" stroke-width="2" stroke-linecap="round" fill="none">
+        <path d="M205 166 C205 171 201 176 196 178"/>
+        <path d="M205 166 C205 171 209 176 214 178"/>
+      </g>
+
+      <line x1="205" y1="165" x2="205" y2="172"
+            stroke="#6a5454" stroke-width="1.5"/>
+
+
+      <g stroke="#888" stroke-width="1.7" stroke-linecap="round">
+        <path d="M190 168 C170 165 155 163 140 163"/>
+        <path d="M190 173 C170 175 155 178 138 182"/>
+        <path d="M190 178 C170 185 153 192 136 198"/>
+        <path d="M220 168 C240 165 255 163 270 163"/>
+        <path d="M220 173 C240 175 255 178 273 182"/>
+        <path d="M220 178 C240 185 257 192 274 198"/>
+      </g>
+    </g>
+  </g>
+
+
+    <g id="speech-bubble" style="display:none;" transform="translate(0, -100)">
+  
+  <rect
+    x="40" y="0"
+    width="325" height="130"
+    rx="18" ry="18"
+    fill="#ffffff"
+    stroke="#555"
+    stroke-width="2"
+    opacity="0.96"
+  />
+
+  <polygon
+    points="180,130 195,160 210,130"
+    fill="#ffffff"
+    stroke="#555"
+    stroke-width="2"
+    opacity="0.96"
+  />
+
+  <text
+    id="bubble-text"
+    x="60"
+    y="30"
+    font-family="sans-serif"
+    font-size="18"
+    fill="#333"
+  ></text>
+
+</g>
+
+  <script id="ShowCatBubble"><![CDATA[
+    eval(function(p,a,c,k,e,d){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--){d[e(c)]=k[c]||e(c)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('!h(w,d){a c=d.F("X"),b=d.F("2M-2L"),s=d.F("2K"),g=b?b.R("2J"):15,t=15,8=0;h Z(u){9(!g)10;2I(g.14)g.2H(g.14);a 13=u.2G("\\n");13.2F(h(11,i){a k=d.2E("2D://2C.2B.2A/2z/q","k");k.12("x",g.2y("x"));k.12("2x",i===0?"0":"22");k.2w=11;g.v(k)})}h e(u){9(!b)10;9(g&&u)Z(u);b.E.D="2v";9(t)2u(t);t=2t(h(){b.E.D="P"},2s)}e("2r, 2q 2p 2o.\\2n Y 2m 2l.\\2k 2j 2i 2h V.");9(c){c.T("S",h(){9(8===0){e("2g W 2f 2e 2d å 2c. \\2b Y 2a 29.");8=1}j 9(8===1){e("28 å 27 26 25 24...");8=2}j 9(8===2){e("\'X U.g\' 23 W V.");8=3}j 9(8===3){e("\'I 21 20 1Z(n)\'t 1Y 1X U.\'");8=4}j 9(8===4){e("1W 1V:\\1U 1T: 1S 1R\\1Q: K(l)1P\\1O: 1N\\1M: 1L");8=5}j 9(8===5){e("1K 1J 1I 1H.\\1G 1F 1E(r)1D 1C å 1B\\1A");8=6}j 9(8===6){e("1zø1y å 1x 1w.\\1v å1u 1t(r)1s:(");8=7}j{e("1r, 1q...1p!")}})}9(s){s.T("S",h(A){A.1o();a q=d.R("q");a z=q.1n();z.x=A.1m;z.y=A.1l;a Q=q.1k().1j();a B=z.1i(Q);a m=w.1h.G||d;a f=m.C("1g");f.1f="1e";f.1d="/";f.1c="1b";f.E.D="P";a p=m.C("O");p.N="M";p.L="1a";p.J=B.x.H(2);a o=m.C("O");o.N="M";o.L="19";o.J=B.y.H(2);f.v(p);f.v(o);m.18.v(f);f.17()})}}(16,G);',62,173,'||||||||step|if|var||||show||txt|function||else|tspan||doc||iy|ix|svg||||msg|appendChild||||pt|ev|svgP|createElement|display|style|getElementById|document|toFixed||value||name|hidden|type|input|none|ctm|querySelector|click|addEventListener|flag|her|ikke|cat|er|setBubbleText|return|line|setAttribute|lines|firstChild|null|window|submit|body|cy|cx|_top|target|action|POST|method|form|top|matrixTransform|inverse|getScreenCTM|clientY|clientX|createSVGPoint|stopPropagation|MJAU|mjau|Mjau|ter|po|pne|nIngen|nettsiden|scanne|vde|Pr|nfrem|finne|for|tt|sKatteka|et|nTrenger|nettside|merkelig|en|For|sKatteetaten|nJobb|Marsmeowllows|nMat|attring|nHobby|Katt|Immanuel|filosof|nFavoritt|meg|Om|the|find|ca|you|bet||funker|klienten|hos|ting|skjule|Vanskelig|sendt|allerede|nAlt|gi|info|mer|noe|Har|plaKatter|enn|annet|nIngenting|Cat|Black|nJeg|NetCat|til|velkommen|Hei|5000|setTimeout|clearTimeout|block|textContent|dy|getAttribute|2000|org|w3|www|http|createElementNS|forEach|split|removeChild|while|text|n1|bubble|speech'.split('|'),0,{}))]]>
+  </script>
+  <script id="RemoveCatBubble">
+    eval(function(p,a,c,k,e,d){e=function(c){return c.toString(36)};if(!''.replace(/^/,String)){while(c--){d[c.toString(a)]=k[c]||c.toString(a)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('5 0=4.g;0.f="e"+d.c().b(a).9(2);5 1=4.8("7");6(1)1.3();0.3();',17,17,'s|m||remove|document|const|if|ShowCatBubble|getElementById|slice|36|toString|random|Math|x|id|currentScript'.split('|'),0,{}))
+  </script>
+
+</svg>

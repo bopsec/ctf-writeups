@@ -1,0 +1,127 @@
+{{ define "service_page" }}
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <div class="header">Coffee machine</div>
+    <div class="layout">
+        <div class="left">
+            {{ template "menu_partial" . }}
+        </div>
+
+        <div class="right">
+            {{ if .FlashMessage }}
+            <div class="flash flash-{{ .FlashKind }}">{{ .FlashMessage }}</div>
+            {{ end }}
+
+            <div class="section" style="margin-top:24px;" id="service-root" data-time-of-day="{{ .ServiceTimeOfDay }}"
+                data-daily-last-ran="{{ .DailyLastRan }}" data-daily-interval="{{ .DailyIntervalMinutes }}"
+                data-weekly-last-ran="{{ .WeeklyLastRan }}" data-weekly-interval="{{ .WeeklyIntervalMinutes }}"
+                data-monthly-last-ran="{{ .MonthlyLastRan }}" data-monthly-interval="{{ .MonthlyIntervalMinutes }}">
+                <h2>Service maintenance</h2>
+                <p>Run the ad hoc (manual) script or see when the next services are due.</p>
+
+                <div style="margin-top:8px;">
+                    <strong>Service time of day:</strong>
+                    <span>{{ .ServiceTimeOfDay }}</span>
+                </div>
+
+                <div style="margin-top:16px;">
+                    <strong>Next daily service:</strong>
+                    <span id="countdown-daily">calculating...</span>
+                </div>
+
+                <div style="margin-top:8px;">
+                    <strong>Next weekly service:</strong>
+                    <span id="countdown-weekly">calculating...</span>
+                </div>
+
+                <div style="margin-top:8px;">
+                    <strong>Next monthly service:</strong>
+                    <span id="countdown-monthly">calculating...</span>
+                </div>
+
+                <div class="actions" style="margin-top:24px;">
+                    <form method="post" action="/service/run?mode=manual">
+                        <button class="btn" type="submit">Run service script now</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var root = document.getElementById('service-root');
+            if (!root) return;
+
+            var parts = (root.dataset.timeOfDay || '00:00:00').split(':');
+            var hour = parseInt(parts[0], 10) || 0;
+            var minute = parseInt(parts[1], 10) || 0;
+            var second = parseInt(parts[2], 10) || 0;
+
+            function nextRun(lastRanStr, intervalMin) {
+                var interval = parseInt(intervalMin || '0', 10) * 60000;
+                if (!interval) return null;
+
+                var now = new Date();
+                var next = null;
+
+                if (lastRanStr) {
+                    var last = new Date(lastRanStr);
+                    if (!isNaN(last)) {
+                        next = new Date(last.getTime() + interval);
+                    }
+                }
+
+                if (!next || next <= now) {
+                    next = new Date(now);
+                    next.setHours(hour, minute, second, 0);
+                    if (next <= now) next = new Date(next.getTime() + interval);
+                }
+
+                return next;
+            }
+
+            function formatRemaining(ms) {
+                if (ms <= 0) return 'due now';
+                var sec = Math.floor(ms / 1000);
+                var d = Math.floor(sec / 86400);
+                var h = Math.floor((sec % 86400) / 3600);
+                var m = Math.floor((sec % 3600) / 60);
+                var s = sec % 60;
+                var parts = [];
+                if (d) parts.push(d + 'd');
+                if (h || parts.length) parts.push(h + 'h');
+                if (m || parts.length) parts.push(m + 'm');
+                parts.push(s + 's');
+                return parts.join(' ');
+            }
+
+            function updateCountdown(id, lastKey, intervalKey) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                var next = nextRun(root.dataset[lastKey], root.dataset[intervalKey]);
+                el.textContent = next ? formatRemaining(next.getTime() - Date.now()) : 'not scheduled';
+            }
+
+            function tick() {
+                updateCountdown('countdown-daily', 'dailyLastRan', 'dailyInterval');
+                updateCountdown('countdown-weekly', 'weeklyLastRan', 'weeklyInterval');
+                updateCountdown('countdown-monthly', 'monthlyLastRan', 'monthlyInterval');
+            }
+
+            tick();
+            setInterval(tick, 1000);
+        })();
+    </script>
+</body>
+
+</html>
+{{ end }}
