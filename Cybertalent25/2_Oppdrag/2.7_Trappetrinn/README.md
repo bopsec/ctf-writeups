@@ -11,7 +11,7 @@ ssh sarah@trappetrinn
 ---
 
 ## 2.7.1. Sarah
-
+Første flagget lå åpent så fort man logget inn.
 ```sh
 sarah@trappetrinn:~$ ls -la
 ... 
@@ -66,7 +66,7 @@ login@corax ~/2_oppdrag/2.7_Trappetrinn $ scoreboard 9f63269681edb171d5fa7ea529f
 Dette er nok ikke David fornøyd med...
 
 ## 2.7.3. Priya
-Hentet SSH-nøkkelen til David via backup, logget inn og undersøkte `seniorteam`-verktøyene.
+Hentet SSH-nøkkelen til David via backup-funksjonen fra forrige oppgave, logget inn og undersøkte `seniorteam`-verktøyene.
 
 ```sh
 david@trappetrinn:/opt/senior-tools/programs$ ls -la /opt/senior-tools/helper-scripts/

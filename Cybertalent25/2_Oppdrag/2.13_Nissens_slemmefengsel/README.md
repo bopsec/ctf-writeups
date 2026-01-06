@@ -13,22 +13,25 @@ Ser fra challenge at alle bokstaver i 'cybertalent \^_^' er blokkert
 Så jeg må prøve å finne en måte å hente ut flagget uten å bruke disse tegnene
 Vi er på en veldig gammel versjon av python, så det meste er ikke tilgjengelig...
 
-Tilgjengelig:\
-d, f, g, h, i, j, k, m, o, p, q, s, u, v, w, x, z\
-0-9\
-backticks `\
-parantes ()\
-brackets []\
-pluss +\
-minus -\
-asterisk *\
-quotes '"\
-punktum .\
-komma ,\
-kolon :\
+Tilgjengelig:
+```
+d, f, g, h, i, j, k, m, o, p, q, s, u, v, w, x, z
+0-9
+backticks `
+parantes ()
+brackets []
+pluss +
+minus -
+asterisk *
+quotes '"
+punktum .
+komma ,
+kolon :
 etc.
-
-`divmod` -> '<built-in function \'builtin.divmod\'>'\
+```
+Fant ut ved å kjøre programmet lokalt at jeg kunne få ut <built-in function 'builtin.function'> ved å lese \`function\`.\
+Sjekket hva jeg hadde tilgjengelig av funksjoner, og eneste som ikke ble truffet av filteret var 'divmod', og ved hjelp av dette fikk jeg også brukt dette:\
+`divmod` -> '<built-in function 'builtin.divmod'>'\
 `divmod`[1] = 'b'\
 `divmod`[2] = 'u'\
 `divmod`[3] = 'i'\
@@ -37,7 +40,7 @@ etc.
 `divmod`[8] = 'n'\
 `0.00001`[1] = 'e'  ('1e-05')
 
-Innså tidlig at det var lite sannsnlig at jeg kunne skrive noe for å lese selve flagget, men input() burde gå fint.\
+Innså tidlig at det var lite sannsynlig at jeg kunne skrive noe for å lese selve flagget, men input() burde gå fint.\
 Hvis jeg får en input()-prompt trenger jeg ikke tenke på tegn som ikke er lov.
 
 Jeg kan bruke substrings, to chars kortere enn om jeg ikke gjør det, og `divmod`[7:9] er "in"\

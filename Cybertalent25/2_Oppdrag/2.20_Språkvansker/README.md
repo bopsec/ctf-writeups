@@ -16,7 +16,7 @@ DECIMAL                            HEXADECIMAL                        DESCRIPTIO
 ------------------------------------------------------------------------------------------------------------------------
 ```
 
-Ligger en passordbeskyttet .zip skjupt i korstokk.png, antar at passordet ligger i minnedump
+Ligger en passordbeskyttet .zip skjult i korstokk.png, antar at passordet ligger i minnedump
 
 Kjører volatility for kjapp analyse av hva som ble kjørt osv
 ```sh

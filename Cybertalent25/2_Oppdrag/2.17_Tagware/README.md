@@ -40,13 +40,14 @@ if (fn) fn();
 ```
 
 Dekryptering:\
-out[i] = enc[i] ^ ((key >> ((i & 7)*8)) & 0xff)
+`out[i] = enc[i] ^ ((key >> ((i & 7)*8)) & 0xff)`
 
 -> XOR med 8-bytes nøkkel, roterende.\
 Når man dekrypterer strengene finner man:\
 Riktig dekryptert symbol = "jkdewc"\
 Men kun når uVar1 = 0x42352bac644a\
-Dette er ikke hele MACen fordi jkdewc er for kort.
+Dette er derimot ikke hele MACen fordi "jkdewc" er for kort.\
+Koden jeg brukte for å finne denne delen av uVar1 kan finnes i [getMacFromJkdewc.py](getMacFromJkdewc.py).
 
 jkdewc() dekrypterer ny streng med samme XOR-mekanisme og kjører:\
 system(<dekryptert>)

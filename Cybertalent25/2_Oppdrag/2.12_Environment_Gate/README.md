@@ -51,7 +51,7 @@ You shall not pass!
 
 
 
-Åpner i ghidra, og gjør litt kjapp analyse gjennom ltrace
+Åpner i ghidra, og gjør litt kjapp analyse gjennom det og ltrace
 
 ```c
 param_1[0x00-0x04]  → "CFG3debian"        (OS ID)

@@ -21,7 +21,7 @@ Jeg åpnet URL-en fra corax og fant kommentar med adminbruker på innloggingssid
 - `admin_pin` måtte gjøres numerisk eller sjekken i input-feltet fjernes.
 - `maintenance.json` hentet .sh-skript fra ekstern server og signerte dem med privat nøkkel.
 - Fikk logget meg inn som admin, og fant [kaffemaskin-source](kaffemaskin-source.zip) i config/source.
-- Fant `private.pem` via URL-encoding `assets/..%252F..%252Fdata/hidden/private.pem`, signerte eget script og kjørte reverse shell ved å overskrive hosten.
+- Fant etterhvert `private.pem` via URL-encoding `assets/..%252F..%252Fdata/hidden/private.pem`, signerte eget script og kjørte reverse shell ved å overskrive hosten.
 
 ```sh
 cd home
@@ -77,7 +77,7 @@ Pasta og gaffateip har mange likheter, bra jobba! Ser ut som det er en server so
 ---
 
 ## 2.19.3. Kaffemaskin Server
-Fant [kildekoden til serveren](server-source.zip) med `wget -qO- http://127.0.0.1:8085/source 2>&1`.
+Fant [kildekoden til serveren](server-source/) med `wget -qO- http://127.0.0.1:8085/source 2>&1`.
 
 ```go
 func serviceHandler(w http.ResponseWriter, r *http.Request) {

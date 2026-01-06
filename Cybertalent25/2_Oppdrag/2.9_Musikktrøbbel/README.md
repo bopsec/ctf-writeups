@@ -78,7 +78,8 @@ Tritonussubstitusjoner er gøy, en akkord har ikke alltid tallet man tror.
 (kremt kremt, selv om tonen ikke er i akkorden, betyr ikke det at den ikke kan ha tallet til tonen som ikke er der)
 Se etter mønster
 ```
-Hvis du tar bit 1, 3 og 0 i den rekkefølgen, får du en ny zip-fil med en ny png "A_cool_new_christmas_song.png", igjen med et passord
+Hvis du tar bit 1, 3 og 0 i den rekkefølgen, får du en ny zip-fil med en ny png "A_cool_new_christmas_song.png", igjen med et passord\
+Her måtte jeg frem med både wikipedia og krangling med diverse LLMer for å vite hva det var hintene betydde, men endte ihvertfall til slutt opp med denne:
 
 ```
 A F#m7 Bm7 E7 Amaj C#m D6 Bm7 E7 A6 F° E° D7(b9)

@@ -93,9 +93,9 @@ Begge signaturene har:\
 
 
 ECDSA nonce reuse:
-- k = (z1 - z2) / (s1 - s2) mod n
-- private_key = (s * k - z) / r mod n
-- Hvor z1 og z2 er meldingshashes (transaction sighashes)
+- `k = (z1 - z2) / (s1 - s2) mod n`
+- `private_key = (s * k - z) / r mod n`
+- `Hvor z1 og z2 er meldingshashes (transaction sighashes)`
 
 
 ```sh
@@ -105,5 +105,6 @@ Decrypted (hex): 0340ae9cd240604f47e7773ec2791abd0340ae9cd240604f47e7773ec2791ab
 
 First 16: 0340ae9cd240604f47e7773ec2791abd
 ```
+Koden kan finnes i [bitcoin.py](bitcoin.py).
 
 Flagget er 0340ae9cd240604f47e7773ec2791abd
