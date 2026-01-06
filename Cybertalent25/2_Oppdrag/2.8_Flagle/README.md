@@ -7,7 +7,7 @@ ssh play@flagle
 ```
 ---
 
-Bare testet litt rundt, og innså at en gang iblant hvis jeg kjørte flere spill i parallell, så ville det være flere spill som hadde same flagg.\
+Bare testet litt rundt, og innså at en gang iblant hvis jeg kjørte flere spill i parallell, så ville det være flere spill som hadde same flagg. Dette fordi tid ble brukt som seed for random-funksjonen\
 Kjørte da bare 6 spill i parallell, og brukte resultatet fra de første 5 for hvert av gjettene i det siste.
 
 ```sh
