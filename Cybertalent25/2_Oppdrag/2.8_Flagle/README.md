@@ -44,5 +44,5 @@ Game ended!
 
 login@corax ~/storage/2.8_Flagle $ scoreboard 998cb4814307061b319dd166aa1c7418
 
-2.8.1 Flagle
+2.8.1 Flagle\
 Godt gjettet!
