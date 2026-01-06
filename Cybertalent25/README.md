@@ -2,6 +2,8 @@
 Dette ble litt raskt satt sammen, så det kan hende jeg har skrevet feil eller forklart noe annet enn det koden gjør hvis jeg husker feil.\
 Send meg gjerne en dm på discord "bop.exe" hvis du finner noe tull
 
+Også kjører jeg sikkert litt cleanup selv etterhvert
+
 ---
 ## 1. Grunnleggende
 - [1.1 Scoreboard](1_Intro/1.1_Scoreboard/)
