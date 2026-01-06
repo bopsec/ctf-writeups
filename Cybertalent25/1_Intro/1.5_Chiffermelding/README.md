@@ -31,4 +31,4 @@ Dette er åpningslinjen fra diktet "Til Foraaret" og forfatteren er Henrik Werge
 ca85d88caabfba083aac18db476e2fa2
 ```
 
-Flagget er: ca85d88caabfba083aac18db476e2fa2
+Flagget er ca85d88caabfba083aac18db476e2fa2

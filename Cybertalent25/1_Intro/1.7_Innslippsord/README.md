@@ -3,7 +3,7 @@
 Finner du ordet?
 
 --------------------------------------------
-Gjorde litt dynamisk analyse før jeg bare gjorde objdump
+Gjorde litt dynamisk analyse før jeg bare gjorde objdump\
 Fant ut at det funket slik (se kommentarer)
 ```sh
 00000000000011fe <check_pw>:
@@ -39,7 +39,7 @@ Fant ut at det funket slik (se kommentarer)
 python3 1.7.py
 Passord: 168065a0236e2e64c9c6cdd086c55f63
 ```
-
+Koden kan finnes i [1.7.py](1.7.py)
 ```sh
 login@corax ~/1_grunnleggende/1.7_Innslippsord $ ./innslippsord
 === Password Checker ===

@@ -33,4 +33,4 @@ Koden kan finnes i [solve.py](solve.py)
 
 Flagget er dcee2dbef8ad3dc077ba21dacafb9a97
 
-Er det "et annet flagg" her? Jeg fant ingenting, og var ikke mulig å holde connection oppe lenge nok til å få prøvd spillet ordentlig
+Her var det tydeligvis et flagg til, som nevnt i oppgaveteksten, men jeg fant det ikke. Det var også tydeligvis ikke løselig tidlig i konkurransen, så er fullt mulig jeg prøvde før dette ble fikset.

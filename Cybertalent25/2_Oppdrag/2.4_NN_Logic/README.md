@@ -57,7 +57,7 @@ python3 retraining.py
 </body>
 </html>
 ```
-
+Retraining-koden ligger i [retraining.py](retraining.py)
 
 login@corax ~/2_oppdrag/2.4_NN_Logic $ scoreboard 42fd918e97c0c839ec8d669bd40267e3
 

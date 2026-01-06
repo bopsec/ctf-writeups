@@ -24,7 +24,7 @@ unchained:~$ find / -perm -4000 2>/dev/null
 /usr/bin/sudo
 ```
 
-gawk har suid, og kan lese secret.txt med feks print
+gawk har sgid til root, og kan lese secret.txt med feks print
 
 ```sh
 unchained:~$ gawk '{print}' secret.txt

@@ -152,7 +152,6 @@ Finner ingenting mer angående hva som inneholder i passordet, annet enn at det 
 Altså passordet abcd -> faktisk key er abcdabcdabcdabcd.
 
 Siden keyspace er såpass lite kan jeg bare bruteforce det, 26^4 = 456976 muligheter
-Koden ligger i bruteforce.c
 
 ```sh
 ./bruteforce
@@ -160,7 +159,7 @@ Keyspace: 456976
 [  4.95%] 22620 / 456976
 FOUND: qbit
 ```
-
+Koden kan finnes i [bruteforce.c](bruteforce.c).
 ```
 Enter your first password, please:
 You made it! Here is your prize:

@@ -21,7 +21,7 @@ Sjekket Assembly_CSharp.dll i DotPeek og så at når man taper havner man i scen
       Object.Instantiate<GameObject>(this.explosionPrefab, this.transform.position, Quaternion.identity);
     }
     else
-      SceneManager.LoadScene("Win");
+      SceneManager.LoadScene("Win"); 
     Object.Destroy((Object) this.gameObject);
   }
 ```

@@ -19,6 +19,7 @@ I enden venter det et flagg.
 ----------------------------------------
 
 ## User1
+Her var det bare å lese flagget da det lå i ~.
 ```sh
 breakout:~$ ls -la
 total 4
@@ -30,6 +31,8 @@ user2:eN4UR19LJGJRQdELYMAb
 ```
 
 ## User2
+Her var det også bare å lese flagget, forsøkt gjemt ved å legge til .-prefix.\
+Jeg er vandt til å alltid kjøre ls -la istedenfor ls, så dette kom også med en gang.
 ```sh
 breakout:~$ ls -la
 total 4
@@ -41,6 +44,8 @@ user3:wn90aprk2rfJygqyTPdp
 ```
 
 ## User3
+Her fikk vi en note.txt samt en mappe `secret_information` som vi ikke kunne gå inn i.\
+Fikk vite fra `note.txt` at inne i secret_information/ lå det en ny mappe `super_secret_information`, så det var bare å gå inn i den mappen og finne flagget.
 ```sh
 breakout:~$ ls -la
 total 4
@@ -69,10 +74,11 @@ dr-x-----x    1 root     root            38 Dec 16 21:14 ..
 breakout:~/secret_information/super_secret_information$ cat user3.txt
 user4:h212BaWpK6Va71liSOf3
 ```
-
-![Transaksjon](transaction.png)
+[Transaksjon](transaction.png) lå også i mappen, men denne var ikke relevant for oppgaven.
 
 ## User4
+Her fikk vi igjen flagget direkte i ~/, men gruppen til user4 hadde ikke lesetilgang til denne.\
+Sjekket etter suid/sgid, fant ingenting, men ser at vi har perms til å bruke /bin/cat som julenissen.
 ```sh
 breakout:~$ ls -la
 total 4
@@ -100,6 +106,7 @@ user5:qihwB4q0kKSIsAa4XMyn
 ```
 
 ## User5 og User6(Flagg)
+User5 kommer inn i shell som ikke har spesielt med binaries, så jeg bare bytter til /bin/sh istedet og leser flagget.\
 ```sh
 user5@breakout:~$ ls -la
 -bash: ls: command not found
@@ -111,7 +118,10 @@ user5@breakout:~$ su - user5 -s /bin/sh
 Password:
 breakout:~$ cat user5.txt
 user6:8XVENZxLkkYnhMwZZaQ7
-
+```
+Når man logget inn som user6 havnet man i en "restrictive shell" som ikke ga deg mulighet til å skrive noe med spaces.\
+Så jeg bare kaller det fra user5 istedet.
+```sh
 user5@breakout:~$ su - user6 -c 'cat flag.txt'
 Password:
 07d387f61b5d7df303a7e652f868cffb

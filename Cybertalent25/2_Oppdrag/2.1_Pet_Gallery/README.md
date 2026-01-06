@@ -7,13 +7,10 @@ https://pet-gallery.ctf.cybertalent.no
 
 ---
 
+Ganske rett frem, hvis base64 av bildenavnet inneholder substrengen "DeW" så vil bildet ikke vises på nettsiden og heller byttes ut med "Forbidden".\
+Neon Cyber Cat var bildet som viste forbidden, sjekket base64 av navnet, og så at det inneholdt "DeW".\
+Prøvde lowercase "neon cyber cat" b64 "bmVvbiBjeWJlciBjYXQ=", inneholder ikke DeW, og ga flagget.
 
-Så i app.py at hvis det inneholder DeW så får jeg "Forbidden"-kattebildet\
-Sjekket Neon Cyber Cat b64 og så at det inneholdt "DeW" så den er blocked\
-Prøvde lowercase "neon cyber cat" b64 "bmVvbiBjeWJlciBjYXQ=", inneholder ikke DeW
-
-https://pet-gallery.ctf.cybertalent.no/img/bmVvbiBjeWJlciBjYXQ \
-Ga flagget.
 
 ![neon-cyber-cat.png](neon-cyber-cat.png)
 

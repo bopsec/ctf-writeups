@@ -24,7 +24,7 @@ Fant flagget i https://ctf.cybertalent.no/faq
 
 login@corax ~ $ scoreboard d15f097c36751dbc606a9a35940b6987
 
-1.3.1 FAQ
+1.3.1 FAQ\
 Lurt å lese ofte stilte spørsmål! Om det er noe du lurer på,
 ta forbindelse med @etjenesten på Discord.
 
