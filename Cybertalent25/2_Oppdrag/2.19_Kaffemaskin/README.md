@@ -21,7 +21,8 @@ Jeg åpnet URL-en fra corax og fant kommentar med adminbruker på innloggingssid
 - `admin_pin` måtte gjøres numerisk eller sjekken i input-feltet fjernes.
 - `maintenance.json` hentet .sh-skript fra ekstern server og signerte dem med privat nøkkel.
 - Fikk logget meg inn som admin, og fant [kaffemaskin-source](kaffemaskin-source.zip) i config/source.
-- Fant etterhvert `private.pem` via URL-encoding `assets/..%252F..%252Fdata/hidden/private.pem`, signerte eget script og kjørte reverse shell ved å overskrive hosten.
+- Fant ut at background png-sjekken ble kjørt etter den ble lastet opp, så prøvde først å bruke bakgrunnsbildet til å laste opp shell.png og kjøre før den ble byttet tilbake, men var aldri rask nok eller gjorde noe feil.
+- Fant uansett etterhvert `private.pem` via URL-encoding `assets/..%252F..%252Fdata/hidden/private.pem`, signerte eget script og kjørte reverse shell ved å overskrive hosten.
 
 ```sh
 cd home
