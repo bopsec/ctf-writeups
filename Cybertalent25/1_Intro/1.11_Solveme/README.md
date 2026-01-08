@@ -136,6 +136,8 @@ FLAG{Don't_get_lost_on_your_way_home}
 Solveme 3: FLAG{Don't_get_lost_on_your_way_home}
 
 ---
+# 4.
+
 ```asm
 cmp    $0x4,%rax      ; lengdesjekk på 4 chars
 ...
@@ -145,7 +147,7 @@ jg     ...            ; feil hvis > 'z'
 cmp    $0x60,%al      ; sammenlign med '`' (96)
 jg     ...            ; OK hvis > '`' (altså >= 'a')
 ```
-# 4.
+
 Mellom lowercase a og lowercase z
 
 Finner ingenting mer angående hva som inneholder i passordet, annet enn at det blir konkatenert sammen 4 ganger.
