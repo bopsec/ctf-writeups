@@ -185,11 +185,11 @@ Solveme 4: FLAG{Brutus_doesnt_remember_passwords}
 ---
 # Bonus
 
-While looking for all the flags, I noticed that the flag string was longer than the printed flag
-After each flag I got the following\
-FLAG{Strings_are_all_you_need} 	FLAG{A_sparkling_hidden_gem} 	(flag1 + bonus flag)\
-FLAG{Start_the_day_on_the_right_offset}  Life is full of paths. (flag2 + bonus text)\
-FLAG{Don't_get_lost_on_your_way_home}  Sometimes you dont know  (flag3 + bonus text)\
-FLAG{Brutus_doesnt_remember_passwords} that you missed something.(flag4 + bonus text)\
+Mens jeg lette etter de andre flaggene under dynamisk analyse, la jeg merke til at flagstrengen var lenger enn det som ble printet. \
+Etter hvert flagg fant jeg dette:\
+FLAG{Strings_are_all_you_need}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLAG{A_sparkling_hidden_gem} 	(flag1 + bonus flagg)\
+FLAG{Start_the_day_on_the_right_offset}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Life is full of paths. (flag2 + bonus text)\
+FLAG{Don't_get_lost_on_your_way_home}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sometimes you dont know  (flag3 + bonus text)\
+FLAG{Brutus_doesnt_remember_passwords}&nbsp;&nbsp;that you missed something.(flag4 + bonus text)
 
 Solveme bonus: FLAG{A_sparkling_hidden_gem}
